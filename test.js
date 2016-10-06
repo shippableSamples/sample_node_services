@@ -85,61 +85,61 @@ describe('MySql Database', function () {
 });
 
 /* ================= neo4j =================*/
-// describe('Neo4j database', function () {
-//   it('should save a node', function () {
-//     var node = db_neo4j.createNode({ name: 'test' });
-//     node.save(function (err, node) {
-//       expect(err).to.equal(null);
-//       expect(node).to.have.property('id');
-//     });
-//   });
-//   it('should retrieve a node', function () {
-//     db_neo4j.getIndexedNodes('node_auto_index', 'name', 'test', function (nodes) {
-//       expect(nodes).to.be.an('array');
-//       expect(nodes.length).to.equal(1);
-//       expect(nodes[0].name).to.equal('test');
-//     });
-//   });
-// });
+describe('Neo4j database', function () {
+  it('should save a node', function () {
+    var node = db_neo4j.createNode({ name: 'test' });
+    node.save(function (err, node) {
+      expect(err).to.equal(null);
+      expect(node).to.have.property('id');
+    });
+  });
+  it('should retrieve a node', function () {
+    db_neo4j.getIndexedNodes('node_auto_index', 'name', 'test', function (nodes) {
+      expect(nodes).to.be.an('array');
+      expect(nodes.length).to.equal(1);
+      expect(nodes[0].name).to.equal('test');
+    });
+  });
+});
 
 /* ================= postgres =================*/
-// describe('Postgres Database', function () {
-//   this.timeout(3000);
-//   beforeEach(function (done) {
-//     setTimeout(function () {
-//       done();
-//     }, 1000);
-//   });
-//   it('should create a table', function (done) {
-//     db_postgres.schema.hasTable('things').then(function (exists) {
-//       if (!exists) {
-//         db_postgres.schema.createTable('things', function (table) {
-//           table.string('name');
-//         }).then(function () {
-//           done();
-//         });
-//       } else {
-//         done();
-//       }
-//     });
-//   });
-//   it('should save a new name', function (done) {
-//     db_postgres('things')
-//       .insert({ name: 'Johnson' })
-//       .exec(function (err) {
-//         expect(err).to.equal(null);
-//         done();
-//       });
-//   });
-//   it('should retrieve that name', function (done) {
-//     db_postgres('things')
-//       .select()
-//       .then(function (docs) {
-//         expect(docs[0].name).to.equal('Johnson');
-//         done();
-//       });
-//   });
-// });
+describe('Postgres Database', function () {
+  this.timeout(3000);
+  beforeEach(function (done) {
+    setTimeout(function () {
+      done();
+    }, 1000);
+  });
+  it('should create a table', function (done) {
+    db_postgres.schema.hasTable('things').then(function (exists) {
+      if (!exists) {
+        db_postgres.schema.createTable('things', function (table) {
+          table.string('name');
+        }).then(function () {
+          done();
+        });
+      } else {
+        done();
+      }
+    });
+  });
+  it('should save a new name', function (done) {
+    db_postgres('things')
+      .insert({ name: 'Johnson' })
+      .exec(function (err) {
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+  it('should retrieve that name', function (done) {
+    db_postgres('things')
+      .select()
+      .then(function (docs) {
+        expect(docs[0].name).to.equal('Johnson');
+        done();
+      });
+  });
+});
 
 /* ================= rabbitMQ =================*/
 describe('RabbitMQ',

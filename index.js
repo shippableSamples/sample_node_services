@@ -88,25 +88,25 @@ db_mysql.schema.hasTable('things').then(function (exists) {
 module.exports.db_mysql = db_mysql;
 
 /* ================= neo4j =================*/
-// var db_neo4j = new neo4j.GraphDatabase('http://localhost:7474');
-// module.exports.db_neo4j = db_neo4j;
+var db_neo4j = new neo4j.GraphDatabase('http://localhost:7474');
+module.exports.db_neo4j = db_neo4j;
 
 
 /* ================= postgres =================*/
-// var db_postgres = knex.initialize({
-//   client: 'pg',
-//   connection: {
-//     host     : '127.0.0.1',
-//     user     : 'postgres',
-//     password : '',
-//     database : 'app_test'
-//   }
-// });
+var db_postgres = knex.initialize({
+  client: 'pg',
+  connection: {
+    host     : '127.0.0.1',
+    user     : 'postgres',
+    password : '',
+    database : 'app_test'
+  }
+});
 
-// module.exports.db_postgres = db_postgres;
+module.exports.db_postgres = db_postgres;
+
 
 /* ================= rabbitMQ =================*/
-
 module.exports.rabbit_send = function (done) {
   amqp.connect('amqp://localhost', function(err, connection) {});
 
