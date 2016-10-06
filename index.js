@@ -1,16 +1,29 @@
-//mysql
+var express = require("express");
+var app = express();
+
+// memcached
+var memjs = require('memjs');
+
+// mongo
+var mongoose = require("mongoose");
+
+// mysql
 var knex = require('knex');
 
-//neo4j
+// neo4j
 var neo4j = require('neo4j');
 
-//mongo
-var express = require("express"),
-    mongoose = require("mongoose"),
-    app = express();
 
 
-//DB initializations
+// initializations
+
+/* ================= memcached =================*/
+var memcachedClient = memjs.Client.create('127.0.0.1:11211', {
+  username: 'username',
+  password: 'password'
+});
+
+module.exports.memcachedClient = memcachedClient;
 
 /* ================= mongo =================*/
 mongoose.connect("mongodb://localhost/test", function (err) {

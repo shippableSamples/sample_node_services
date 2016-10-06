@@ -1,34 +1,26 @@
 var db_mysql = require('./index.js').db_mysql;
 var db_neo4j = require('./index.js').db_neo4j;
+var memcachedClient = require('./index').memcachedClient;
 var chai = require("chai");
 var expect = chai.expect;
 var superagent = require("superagent");
 var should = require("should");
 
-/* ================= mysql =================*/
-describe('MySql Database', function () {
-  it('should create the things table', function () {
-    db_mysql.schema.hasTable('things').then(function (exists) {
-      expect(exists).to.equal(true);
-    });
-  });
-  it('should save a new name', function () {
-    db_mysql('things')
-      .insert({ name: 'Johnson' })
-      .exec(function (err) {
-        expect(err).to.equal(null);
-      });
-  });
-  it('should retrieve that name', function () {
-    db_mysql('things')
-      .where({ name: 'Johnson' })
-      .select('name')
-      .then(function (name) {
-        expect(name[0].name).to.equal('Johnson');
-      });
-  });
+/* ================= memcached =================*/
+describe('Memcached', function () {
+  it('sets, then gets a key/value pair',
+    function (done) {
+      memcachedClient.set('foo', 'bar');
+      memcachedClient.get('foo',
+        function (err, value, key) {
+          console.log(value.toString());
+          value.toString().should.equal('bar');
+          done();
+        }
+      );
+    }
+  );
 });
-
 
 /* ================= mongo =================*/
 describe("Index", function () {
@@ -61,6 +53,30 @@ describe("Persistence", function () {
         response = response.returnObj;
         response.should.have.property("name", "doobie");
         done();
+      });
+  });
+});
+
+/* ================= mysql =================*/
+describe('MySql Database', function () {
+  it('should create the things table', function () {
+    db_mysql.schema.hasTable('things').then(function (exists) {
+      expect(exists).to.equal(true);
+    });
+  });
+  it('should save a new name', function () {
+    db_mysql('things')
+      .insert({ name: 'Johnson' })
+      .exec(function (err) {
+        expect(err).to.equal(null);
+      });
+  });
+  it('should retrieve that name', function () {
+    db_mysql('things')
+      .where({ name: 'Johnson' })
+      .select('name')
+      .then(function (name) {
+        expect(name[0].name).to.equal('Johnson');
       });
   });
 });
