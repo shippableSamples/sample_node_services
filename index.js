@@ -85,5 +85,5 @@ module.exports.db_mysql = db_mysql;
 
 
 /* ================= neo4j =================*/
-var db_neo4j = new neo4j.GraphDatabase('http://localhost:7474');
-module.exports.db_neo4j = db_neo4j;
+// var db_neo4j = new neo4j.GraphDatabase('http://localhost:7474');
+// module.exports.db_neo4j = db_neo4j;

@@ -4,9 +4,10 @@ node_js:
   - 0.10
 
 services:
- - mongodb
- - mysql
- - neo4j
+  - memcached
+  - mongodb
+  - mysql
+#  - neo4j
 
 env:
   global:
