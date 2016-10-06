@@ -14,7 +14,6 @@ services:
 env:
   global:
     - XUNIT_FILE=shippable/testresults/result.xml
-    - SHIPPABLE_POSTGRES_VERSION="9.6"
 
 build:
   pre_ci_boot:
