@@ -4,9 +4,13 @@ node_js:
   - 0.10
 
 services:
- - mongodb
- - mysql
- - neo4j
+  - couchdb
+  - memcached
+  - mongodb
+  - mysql
+  - neo4j
+  - postgres
+  - rabbitmq
 
 env:
   global:
@@ -15,16 +19,34 @@ env:
 build:
   pre_ci_boot:
     image_name: drydock/u14nodall
-    image_tag: prod
+    image_tag: tip
     pull: true
 
   ci:
     - npm install
     - mkdir -p shippable/testresults
     - mkdir -p shippable/codecoverage
+
+    # couchdb
+    - curl http://127.0.0.1:5984
+    - curl -X PUT http://127.0.0.1:5984/demo
+    - curl -X GET http://127.0.0.1:5984/demo
+    - "curl -H 'Content-Type: application/json' -X POST http://127.0.0.1:5984/demo -d '{\"company\": \"Example, Inc.\"}'"
+    - curl -X GET http://127.0.0.1:5984/demo
+
+    # create databases
     - mysql -e 'create database if not exists test;'
+    - psql -c 'CREATE DATABASE app_test;' -U postgres
+
+    # test databases and rabbitMQ
     - npm test
     - mongo test --eval "db.dropDatabase()"
+
+    # sqlite
+    - sqlite3 testdb 'create table testtable (name VARCHAR(20), value VARCHAR(20));'
+    - sqlite3 testdb "INSERT INTO testtable VALUES ('name1', 'value1');"
+    - sqlite3 testdb 'SELECT * FROM testtable;'
+
     - ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test.js -- -u tdd
     - ./node_modules/.bin/istanbul report cobertura --dir  shippable/codecoverage/
 
