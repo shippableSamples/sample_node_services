@@ -2,6 +2,8 @@ var memcachedClient = require('./index').memcachedClient;
 var db_mysql = require('./index.js').db_mysql;
 var db_neo4j = require('./index.js').db_neo4j;
 var db_postgres = require('./index.js').db_postgres;
+var rabbit_send = require('./index.js').rabbit_send;
+var rabbit_receive = require('./index.js').rabbit_receive;
 var chai = require("chai");
 var expect = chai.expect;
 var superagent = require("superagent");
@@ -138,3 +140,29 @@ describe('Postgres Database', function () {
       });
   });
 });
+
+/* ================= rabbitMQ =================*/
+describe('RabbitMQ',
+  function () {
+    it('should send a message',
+      function (done) {
+        rabbit_send(
+          function(err, sentMessage) {
+            expect(sentMessage).to.equal('sent message');
+            done();
+          }
+        );
+      }
+    );
+    it('should receive a message',
+      function (done) {
+        rabbit_receive(
+          function(err, receivedMessage) {
+            expect(receivedMessage).to.equal('Hello World!');
+            done();
+          }
+        );
+      }
+    );
+  }
+);

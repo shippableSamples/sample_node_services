@@ -10,6 +10,7 @@ services:
   - mysql
 #  - neo4j
   - postgres
+  - rabbitmq
 
 env:
   global:

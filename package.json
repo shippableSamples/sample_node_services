@@ -16,7 +16,8 @@
     "chai": "^1.9.1",
     "neo4j": "^1.1.0",
     "lodash": "^3.0",
-    "memjs": "^0.10.0"
+    "memjs": "^0.10.0",
+    "amqplib": "^0.4.2"
   },
   "devDependencies": {
     "chai": "^1.9.1",
