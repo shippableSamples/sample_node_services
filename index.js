@@ -93,17 +93,17 @@ module.exports.db_mysql = db_mysql;
 
 
 /* ================= postgres =================*/
-var db_postgres = knex.initialize({
-  client: 'pg',
-  connection: {
-    host     : '127.0.0.1',
-    user     : 'postgres',
-    password : '',
-    database : 'app_test'
-  }
-});
+// var db_postgres = knex.initialize({
+//   client: 'pg',
+//   connection: {
+//     host     : '127.0.0.1',
+//     user     : 'postgres',
+//     password : '',
+//     database : 'app_test'
+//   }
+// });
 
-module.exports.db_postgres = db_postgres;
+// module.exports.db_postgres = db_postgres;
 
 /* ================= rabbitMQ =================*/
 

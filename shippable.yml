@@ -36,7 +36,7 @@ build:
 
     # create databases
     - mysql -e 'create database if not exists test;'
-    - psql -c 'CREATE DATABASE app_test;' -U postgres
+    # - psql -c 'CREATE DATABASE app_test;' -U postgres
 
     - npm test
     - mongo test --eval "db.dropDatabase()"
