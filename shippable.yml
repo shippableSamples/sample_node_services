@@ -41,6 +41,11 @@ build:
     - npm test
     - mongo test --eval "db.dropDatabase()"
 
+    # sqlite
+    - sqlite3 testdb 'create table testtable (name VARCHAR(20), value VARCHAR(20));'
+    - sqlite3 testdb "INSERT INTO testtable VALUES ('name1', 'value1');"
+    - sqlite3 testdb 'SELECT * FROM testtable;'
+
     - ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test.js -- -u tdd
     - ./node_modules/.bin/istanbul report cobertura --dir  shippable/codecoverage/
 
