@@ -1,6 +1,7 @@
+var memcachedClient = require('./index').memcachedClient;
 var db_mysql = require('./index.js').db_mysql;
 var db_neo4j = require('./index.js').db_neo4j;
-var memcachedClient = require('./index').memcachedClient;
+var db_postgres = require('./index.js').db_postgres;
 var chai = require("chai");
 var expect = chai.expect;
 var superagent = require("superagent");
@@ -99,3 +100,41 @@ describe('MySql Database', function () {
 //   });
 // });
 
+/* ================= postgres =================*/
+describe('Postgres Database', function () {
+  this.timeout(3000);
+  beforeEach(function (done) {
+    setTimeout(function () {
+      done();
+    }, 1000);
+  });
+  it('should create a table', function (done) {
+    db_postgres.schema.hasTable('things').then(function (exists) {
+      if (!exists) {
+        db_postgres.schema.createTable('things', function (table) {
+          table.string('name');
+        }).then(function () {
+          done();
+        });
+      } else {
+        done();
+      }
+    });
+  });
+  it('should save a new name', function (done) {
+    db_postgres('things')
+      .insert({ name: 'Johnson' })
+      .exec(function (err) {
+        expect(err).to.equal(null);
+        done();
+      });
+  });
+  it('should retrieve that name', function (done) {
+    db_postgres('things')
+      .select()
+      .then(function (docs) {
+        expect(docs[0].name).to.equal('Johnson');
+        done();
+      });
+  });
+});
