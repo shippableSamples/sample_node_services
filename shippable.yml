@@ -34,9 +34,13 @@ build:
     - "curl -H 'Content-Type: application/json' -X POST http://127.0.0.1:5984/demo -d '{\"company\": \"Example, Inc.\"}'"
     - curl -X GET http://127.0.0.1:5984/demo
 
+    # create databases
     - mysql -e 'create database if not exists test;'
+    - psql -c 'CREATE DATABASE app_test;' -U postgres
+
     - npm test
     - mongo test --eval "db.dropDatabase()"
+
     - ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test.js -- -u tdd
     - ./node_modules/.bin/istanbul report cobertura --dir  shippable/codecoverage/
 
